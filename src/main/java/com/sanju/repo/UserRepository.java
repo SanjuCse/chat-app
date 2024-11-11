@@ -1,12 +1,28 @@
 package com.sanju.repo;
 
-import java.util.List;
+import java.util.Optional;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
-import com.sanju.common.Status;
 import com.sanju.model.User;
 
-public interface UserRepository extends MongoRepository<User, String> {
-	List<User> findAllByStatus(Status status);
+import jakarta.transaction.Transactional;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+	Optional<User> findByUsername(String username);
+
+	Boolean existsByUsername(String username);
+
+	Boolean existsByEmail(String email);
+
+//	@Modifying
+//	@Transactional
+//	@Query("UPDATE User u SET u.password = :password WHERE u.username IN (SELECT um.userName FROM UserMstrEntity um WHERE um.userName = :username AND um.clientRegEntity.clientId = :crmId)")
+//	int changePassword(@Param("username") String username, @Param("password") String password,
+//			@Param("crmId") String crmId);
 }

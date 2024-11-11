@@ -4,5 +4,19 @@ spring:
       host: localhost
       port: 27017
       database: chat_app
-#server:
-#  port: 8088
+  datasource:
+    url: jdbc:mysql://localhost:3306/chat?useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+pot:
+  app:
+    jwtSecret: '======================POT=RT=2024=DOMR=J=3256==========================='
+    aesSecret: '======================POT=2=0=RT=UI============================'
+    jwtExpirationMs: 86400000

@@ -6,36 +6,36 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.sanju.model.User;
-import com.sanju.service.UserService;
+import com.sanju.model.ChatUser;
+import com.sanju.service.ChatUserService;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class UserController {
 
-	private final UserService userService;
+	private final ChatUserService userService;
 
 	@MessageMapping("/user.addUser")
 	@SendTo("/user/topic/public")
-	public User addUser(@Payload User user) {
+	public ChatUser addUser(@Payload ChatUser user) {
 		userService.saveUser(user);
 		return user;
 	}
 
 	@MessageMapping("/user.disconnectUser")
 	@SendTo("/user/topic/public")
-	public User disconnectUser(@Payload User user) {
+	public ChatUser disconnectUser(@Payload ChatUser user) {
 		userService.disconnect(user);
 		return user;
 	}
 
 	@GetMapping("/users")
-	public ResponseEntity<List<User>> findConnectedUsers() {
+	public ResponseEntity<List<ChatUser>> findConnectedUsers() {
 		return ResponseEntity.ok(userService.findConnectedUsers());
 	}
 }
